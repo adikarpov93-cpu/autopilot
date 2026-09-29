@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Контент-автопилот — курс</title>
+<meta name="description" content="Нейросеть пишет посты в твоём стиле, ты одобряешь одной кнопкой в Telegram. Настройка за один вечер.">
+<meta property="og:title" content="Контент-автопилот">
+<meta property="og:description" content="Нейросеть пишет посты в твоём стиле. Ты нажимаешь одну кнопку.">
+<meta property="og:image" content="poster.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tektur:wght@500;700;900&family=Onest:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #17202C;
+    --ink-soft: #4A5566;
+    --line: #D5DAE1;
+    --paper: #FFFFFF;
+    --mist: #EEF2F6;
+    --amber: #FFB400;
+    --amber-pale: #FFF3D1;
+    --sky: #2BB3D1;
+    --go: #2EAE6A;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body { margin: 0; font-family: 'Onest', system-ui, sans-serif; color: var(--ink); background: var(--paper); font-size: 17px; line-height: 1.55; }
+  h1, h2, h3 { font-family: 'Tektur', sans-serif; letter-spacing: -0.01em; margin: 0; }
+  h2 { font-size: clamp(28px, 7vw, 40px); line-height: 1.08; margin-bottom: 14px; }
+  p { margin: 0 0 12px; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 20px; }
+  section { padding: 56px 0; }
+  .soft { color: var(--ink-soft); }
+
+  /* Buttons: one action, named by what happens */
+  .buy { display: block; text-align: center; text-decoration: none; background: var(--ink); color: #fff; font-weight: 700; font-size: 19px;
+    padding: 18px 22px; border-radius: 14px; transition: transform .15s ease; }
+  .buy:active { transform: scale(.98); }
+  .buy:focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; }
+  .buy small { display: block; font-weight: 500; font-size: 14px; opacity: .75; margin-top: 2px; }
+  .note { font-size: 14px; color: var(--ink-soft); text-align: center; margin-top: 10px; }
+
+  /* Hero */
+  .hero { background: var(--amber); padding: 22px 0 44px; }
+  .brand { font-family: 'Tektur'; font-weight: 500; font-size: 15px; display: flex; justify-content: space-between; margin-bottom: 26px; }
+  .hero h1 { font-weight: 900; font-size: clamp(34px, 9.6vw, 60px); line-height: 1.02; margin-bottom: 14px; }
+  .hero .lead { font-size: 17px; margin-bottom: 18px; }
+  .hero .note { color: #3b3320; }
+
+  /* Signature element: dotted-leader rows from the course checklist */
+  .panel { background: var(--ink); color: #fff; border-radius: 16px; padding: 10px 18px; margin-bottom: 16px; }
+  .row { display: flex; align-items: baseline; gap: 8px; padding: 7px 0; font-size: 16px; }
+  .row .k { white-space: nowrap; }
+  .row .d { flex: 1; border-bottom: 1.5px dotted #56627A; transform: translateY(-4px); min-width: 12px; }
+  .row .v { font-family: 'Tektur'; font-weight: 500; color: var(--amber); white-space: nowrap; }
+
+  /* Video */
+  .video { border-radius: 16px; overflow: hidden; background: #000; aspect-ratio: 16/9; box-shadow: 0 24px 50px -24px rgba(0,0,0,.45); }
+  .video video { width: 100%; height: 100%; display: block; }
+
+  /* Steps */
+  .steps { list-style: none; padding: 0; margin: 20px 0 0; border-left: 2px solid var(--ink); }
+  .steps li { position: relative; padding: 0 0 22px 22px; }
+  .steps li::before { content: ""; position: absolute; left: -8px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: var(--paper); border: 2px solid var(--ink); }
+  .steps li.you::before { background: var(--amber); border-color: var(--amber); }
+  .steps b { font-family: 'Tektur'; font-size: 20px; display: block; }
+
+  /* Contents list with dotted leaders on light background */
+  .inside { background: var(--mist); }
+  .list { list-style: none; padding: 0; margin: 16px 0 0; }
+  .list li { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .list li:last-child { border-bottom: 0; }
+  .list .row { padding: 0; font-weight: 700; }
+  .list .row .d { border-color: #9AA4B2; }
+  .list .row .v { color: var(--ink); font-size: 15px; }
+  .list small { display: block; color: var(--ink-soft); font-size: 15px; margin-top: 3px; }
+  .num { font-family: 'Tektur'; font-weight: 900; color: var(--amber); margin-right: 6px; }
+
+  /* Earn cards */
+  .earn { display: grid; gap: 14px; margin-top: 18px; }
+  .card { border: 2px solid var(--line); border-radius: 16px; padding: 18px 20px; }
+  .card h3 { font-size: 21px; margin-bottom: 6px; }
+  .card.hi { border-color: var(--amber); background: var(--amber-pale); }
+  .fine { font-size: 14px; color: var(--ink-soft); margin-top: 14px; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .chip { background: var(--mist); border-radius: 999px; padding: 8px 14px; font-size: 15px; }
+
+  /* Final call to action */
+  .final { background: var(--ink); color: #fff; text-align: center; }
+  .final .buy { background: var(--amber); color: var(--ink); }
+  .final .note { color: #AEB8C7; }
+
+  details { border-bottom: 1px solid var(--line); padding: 14px 0; }
+  summary { font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-family: 'Tektur'; font-size: 22px; line-height: 1; }
+  details[open] summary::after { content: "–"; }
+  details p { margin: 10px 0 0; color: var(--ink-soft); }
+
+  footer { font-size: 13px; color: var(--ink-soft); padding: 28px 0 110px; }
+  footer a { color: var(--ink-soft); }
+
+  /* Sticky buy bar on phones once the hero button scrolls away */
+  .sticky { position: fixed; left: 0; right: 0; bottom: 0; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: rgba(255,255,255,.94);
+    backdrop-filter: blur(8px); border-top: 1px solid var(--line); transform: translateY(110%); transition: transform .25s ease; z-index: 10; }
+  .sticky.on { transform: none; }
+  .sticky .buy { max-width: 600px; margin: 0 auto; padding: 14px; font-size: 17px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand"><span>ИИ на автопилоте</span><span>Курс</span></div>
+    <h1>Нейросеть пишет посты. Ты жмёшь одну кнопку</h1>
+    <p class="lead">За один вечер собираешь систему: Claude каждое утро пишет пост в твоём стиле, ты одобряешь в Telegram — и он выходит в Threads и твой канал.</p>
+    <div class="panel">
+      <div class="row"><span class="k">Посты</span><span class="d"></span><span class="v">пишет ИИ</span></div>
+      <div class="row"><span class="k">Настройка</span><span class="d"></span><span class="v">один вечер</span></div>
+      <div class="row"><span class="k">Дальше</span><span class="d"></span><span class="v">2 минуты в день</span></div>
+    </div>
+    <a class="buy" id="heroBuy" href="https://auth.robokassa.ru/merchant/Invoice/YXUQU0eRG0yCAcmSi2eh6w">Купить курс за 990 ₽<small>картой или по СБП</small></a>
+    <p class="note">Цена для первых 30 покупателей, потом 1 990 ₽</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Посмотри вводный урок</h2>
+    <p class="soft">Все уроки такие: короткие, с озвучкой и подсказками на экране. Повторяешь за видео — и готово.</p>
+    <div class="video"><video src="intro.mp4" poster="poster.jpg" controls playsinline preload="none"></video></div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2>Как это работает</h2>
+    <ol class="steps">
+      <li><b>Claude пишет пост</b><span class="soft">По твоему контент-плану и в твоём стиле: с профилем голоса, без нейросетевых штампов.</span></li>
+      <li><b>Черновик приходит в Telegram</b><span class="soft">Твой личный бот присылает пост с двумя кнопками.</span></li>
+      <li class="you"><b>Ты решаешь</b><span class="soft">✅ — публикуем, ❌ — пишешь Claude, что поправить. Без твоей кнопки ничего не выходит.</span></li>
+      <li><b>Пост выходит сам</b><span class="soft">В Threads и в твой Telegram-канал. Каждое утро по расписанию.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="inside">
+  <div class="wrap">
+    <h2>Что внутри</h2>
+    <ul class="list">
+      <li><div class="row"><span class="k"><span class="num">8</span>видеоуроков</span><span class="d"></span><span class="v">~10 минут</span></div><small>От установки Claude до автопилота по расписанию. Анимация, озвучка, подсказки.</small></li>
+      <li><div class="row"><span class="k">Комплект</span><span class="d"></span><span class="v">всё готово</span></div><small>Бот одобрения, шаблон ключей и инструкции для Claude. Программировать ничего не нужно.</small></li>
+      <li><div class="row"><span class="k">Чек-лист</span><span class="d"></span><span class="v">PDF</span></div><small>13 шагов — отмечаешь по ходу уроков.</small></li>
+      <li><div class="row"><span class="k">Чат поддержки</span><span class="d"></span><span class="v">7 дней</span></div><small>Помогаю с настройкой лично. Только для первых 30 покупателей.</small></li>
+    </ul>
+    <ul class="list" style="margin-top:22px">
+      <li><span class="num">0</span>Что соберём</li>
+      <li><span class="num">1</span>Claude и скиллы</li>
+      <li><span class="num">2</span>Твой голос и контент-план</li>
+      <li><span class="num">3</span>Publora и Threads</li>
+      <li><span class="num">4</span>Бот одобрения</li>
+      <li><span class="num">5</span>Telegram-канал</li>
+      <li><span class="num">6</span>Автопилот по расписанию</li>
+      <li><span class="num">7</span>Как расти дальше</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Как на этом зарабатывать</h2>
+    <div class="earn">
+      <div class="card hi"><h3>Свой блог без выгорания</h3><p class="soft" style="margin:0">Посты выходят каждый день, а ты тратишь на них пару минут. Аудитория растёт — растут заявки на твои услуги и продукты.</p></div>
+      <div class="card"><h3>Настраивай автопилот другим</h3><p class="soft" style="margin:0">Эксперты, салоны и магазины хотят вести соцсети, но не успевают. Собрать им такую же систему — отдельная услуга, за которую платят.</p></div>
+      <div class="card"><h3>Веди соцсети клиентам</h3><p class="soft" style="margin:0">Черновики пишет нейросеть, ты только проверяешь. Так один человек спокойно ведёт несколько аккаунтов.</p></div>
+    </div>
+    <p class="fine">Сколько получится заработать, зависит от тебя: курс даёт рабочий инструмент, а не гарантию дохода.</p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2>Для кого</h2>
+    <div class="chips"><span class="chip">Предприниматели</span><span class="chip">Эксперты и блогеры</span><span class="chip">SMM-специалисты</span><span class="chip">Новички в нейросетях</span></div>
+    <h2 style="margin-top:40px">Что понадобится</h2>
+    <ul class="list">
+      <li>💻 Компьютер: Mac или Windows. С телефона настройка не получится</li>
+      <li>🧠 Платная подписка Claude, подойдёт тариф Pro</li>
+      <li>✈️ Telegram и аккаунт Threads</li>
+      <li>🔗 Сервис Publora для публикации в Threads — условия на их сайте</li>
+    </ul>
+  </div>
+</section>
+
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2>Вопросы</h2>
+    <details><summary>Нужно уметь программировать?</summary><p>Нет. Всё техническое делает Claude по инструкциям из комплекта. Ты копируешь ключи и нажимаешь кнопки — в уроках показано, какие.</p></details>
+    <details><summary>Нейросеть опубликует что-то без меня?</summary><p>Нет. Каждый пост выходит только после твоей кнопки ✅ в Telegram.</p></details>
+    <details><summary>Сколько времени займёт?</summary><p>Один вечер на настройку. Дальше пара минут в день: прочитать черновик и нажать кнопку.</p></details>
+    <details><summary>Как я получу доступ?</summary><p>После оплаты напиши в Директ слово «ОПЛАТИЛ» — пришлём ссылку на закрытый Telegram-канал с уроками и комплектом.</p></details>
+    <details><summary>У меня Windows. Подойдёт?</summary><p>Да. Уроки показаны на Mac, на Windows всё то же самое. С автозапуском приёма нажатий помогу в чате поддержки.</p></details>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>Запусти автопилот сегодня вечером</h2>
+    <p style="color:#AEB8C7">8 уроков, комплект, чек-лист и 7 дней поддержки.</p>
+    <a class="buy" href="https://auth.robokassa.ru/merchant/Invoice/YXUQU0eRG0yCAcmSi2eh6w" style="margin-top:22px">Купить курс за 990 ₽<small>картой или по СБП</small></a>
+    <p class="note">Цена для первых 30 покупателей, потом 1 990 ₽</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>ИП Сайдуллаев Мохмад Султанназирович, ИНН 054408240086, ОГРНИП 324050000096876</p>
+    <p>Вопросы по оплате и возврату: <a href="mailto:Ali.karpov.93@mail.ru">Ali.karpov.93@mail.ru</a>. Связь в Telegram: <a href="https://t.me/mjs764">@mjs764</a></p>
+    <p>Оплата проходит на защищённой странице Робокассы. Чек придёт на почту.</p>
+    <p><a href="http://wbstart-mukhammad.ru/wbm">Публичная оферта</a> &nbsp;/&nbsp; <a href="http://wbstart-mukhammad.ru/privacy">Политика конфиденциальности</a></p>
+  </div>
+</footer>
+
+<div class="sticky" id="sticky"><a class="buy" href="https://auth.robokassa.ru/merchant/Invoice/YXUQU0eRG0yCAcmSi2eh6w">Купить курс за 990 ₽</a></div>
+
+<script>
+  // Show the sticky buy bar once the hero button leaves the screen.
+  const bar = document.getElementById('sticky');
+  const hero = document.getElementById('heroBuy');
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => bar.classList.toggle('on', !e.isIntersecting && e.boundingClientRect.top < 0)).observe(hero);
+  }
+</script>
+</body>
+</html>
